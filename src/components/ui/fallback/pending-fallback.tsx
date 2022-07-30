@@ -1,9 +1,21 @@
-export type PendingFallbackProps = {};
+import { Box, Loader, type LoaderProps } from '~/components/ui';
 
-export function PendingFallback(_props: PendingFallbackProps) {
+export type PendingFallbackProps = Pick<LoaderProps, 'sx' | 'size' | 'aria-label'>;
+
+export function PendingFallback(props: PendingFallbackProps) {
 	return (
-		<div aria-label='Loading'>
-			<p>Loading...</p>
-		</div>
+		<Box
+			aria-label={props['aria-label'] ?? 'Loading'}
+			sx={{
+				display: 'flex',
+				alignItems: 'center',
+				justifyContent: 'center',
+				height: '100%',
+				width: '100%',
+				...props.sx,
+			}}
+		>
+			<Loader size={props.size} />
+		</Box>
 	);
 }
