@@ -12,7 +12,10 @@ export default defineConfig({
 
 	plugins: [
 		// https://github.com/vitejs/vite/tree/main/packages/plugin-react
-		react(),
+		react({
+			// https://github.com/vitejs/vite/issues/3301#issuecomment-1080292430
+			fastRefresh: false,
+		}),
 	],
 
 	// https://vitest.dev/config

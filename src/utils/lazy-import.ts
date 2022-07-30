@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { lazy } from 'react';
 
 /**
  * Named imports for React.lazy
@@ -11,10 +11,10 @@ import * as React from 'react';
  * ```
  */
 export function lazyImport<T extends React.ComponentType, I extends { [K2 in K]: T }, K extends keyof I>(
-	factory: () => Promise<I>,
 	name: K,
+	factory: () => Promise<I>,
 ): I {
 	return Object.create({
-		[name]: React.lazy(() => factory().then(module => ({ default: module[name] }))),
+		[name]: lazy(() => factory().then(module => ({ default: module[name] }))),
 	});
 }

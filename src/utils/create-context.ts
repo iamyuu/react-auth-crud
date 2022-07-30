@@ -48,7 +48,6 @@ export function createContext<ContextType>(options: CreateContextOptions = {}) {
 		if (!context && strict) {
 			const error = new Error(errorMessage);
 			error.name = 'ContextError';
-			Error.captureStackTrace(error, useContext);
 			throw error;
 		}
 

@@ -1,17 +1,15 @@
 import { joinURL, withQuery, type QueryObject } from 'ufo';
 import { API_URL } from '~/constants/env';
-// import { queryClient } from '~/libs/react-query';
-// import { getToken, flushStorage } from '~/features/auth';
+import { queryClient } from '~/libs/react-query';
+import { getSession, removeSession } from '~/features/auth';
 
 interface RequestInitClient extends Omit<RequestInit, 'body'> {
 	data?: Record<string, unknown> | FormData;
 	params?: QueryObject;
 }
 
-interface HttpResponse<TData> {
-	status: number;
+interface ResponseHttpError {
 	message: string;
-	data: TData;
 }
 
 /**
@@ -22,7 +20,7 @@ export function http<TData = unknown>(endpoint: string, requestInit?: RequestIni
 		throw new Error('`VITE_API_URL` is not defined. Seems you forgot add on `.env` file');
 	}
 
-	// const accessToken = getToken();
+	const accessToken = getSession()?.token;
 	const { signal, abort } = new AbortController();
 	const { data, params = {}, headers: customHeaders, ...customConfig } = requestInit ?? {};
 
@@ -35,9 +33,9 @@ export function http<TData = unknown>(endpoint: string, requestInit?: RequestIni
 		...customHeaders,
 	});
 
-	// if (accessToken) {
-	// 	headers.append('Authorization', `Bearer ${accessToken}`);
-	// }
+	if (accessToken) {
+		headers.append('Authorization', `Bearer ${accessToken}`);
+	}
 
 	let payload: FormData | string;
 
@@ -60,16 +58,16 @@ export function http<TData = unknown>(endpoint: string, requestInit?: RequestIni
 		const responseData = (await response.json()) as unknown;
 
 		if (response.ok) {
-			return responseData as HttpResponse<TData>;
+			return responseData as TData;
 		}
 
-		// if (response.status === 401) {
-		// 	flushStorage();
-		// 	queryClient.clear();
-		// 	window.location.assign(window.location.origin);
-		// }
+		if (response.status === 401) {
+			removeSession();
+			queryClient.clear();
+			window.location.assign(window.location.origin);
+		}
 
-		const reason = (responseData as HttpResponse<never>).message || 'Internal Server Error';
+		const reason = (responseData as ResponseHttpError).message || 'Internal Server Error';
 
 		const error = new Error(reason);
 		error.name = 'HttpError';

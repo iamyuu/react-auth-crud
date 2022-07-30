@@ -4,6 +4,7 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ErrorBoundary, Suspense } from '~/components/helpers';
 import { ErrorFallback } from '~/components/ui/fallback/error-fallback';
+import { AuthProvider } from '~/features/auth';
 import { GlobalStyles } from '~/themes/styles';
 import { overrideTheme } from '~/themes';
 import { queryClient } from '~/libs/react-query';
@@ -24,7 +25,7 @@ export function AppProviders(props: React.PropsWithChildren) {
 
 					<NotificationsProvider position='top-center'>
 						<Suspense aria-label='Loading app' size='xl' sx={fullScreenStyles}>
-							{props.children}
+							<AuthProvider>{props.children}</AuthProvider>
 						</Suspense>
 					</NotificationsProvider>
 				</QueryClientProvider>

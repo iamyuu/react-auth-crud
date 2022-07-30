@@ -22,6 +22,7 @@
 	},
 	"dependencies": {
 		"@emotion/react": "11.9.3",
+		"@hookform/resolvers": "2.9.7",
 		"@mantine/core": "5.0.0",
 		"@mantine/dropzone": "5.0.0",
 		"@mantine/hooks": "5.0.0",
@@ -31,8 +32,10 @@
 		"react": "18.2.0",
 		"react-dom": "18.2.0",
 		"react-error-boundary": "3.1.4",
+		"react-hook-form": "7.34.0",
 		"react-router-dom": "6.3.0",
-		"ufo": "0.8.5"
+		"ufo": "0.8.5",
+		"zod": "3.17.10"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "17.0.3",
@@ -88,5 +91,8 @@
 	"lint-staged": {
 		"*.{js,jsx,ts,tsx}": "eslint --fix --cache --max-warnings 0",
 		"*.{js,jsx,ts,tsx,css}": "pretty-quick --staged"
+	},
+	"msw": {
+		"workerDirectory": "public"
 	}
 }
