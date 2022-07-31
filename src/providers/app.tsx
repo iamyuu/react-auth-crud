@@ -1,4 +1,5 @@
 import { MantineProvider } from '@mantine/core';
+import { ModalsProvider } from '@mantine/modals';
 import { NotificationsProvider } from '@mantine/notifications';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -23,11 +24,13 @@ export function AppProviders(props: React.PropsWithChildren) {
 				<QueryClientProvider client={queryClient}>
 					<ReactQueryDevtools position='bottom-right' />
 
-					<NotificationsProvider position='top-center'>
-						<Suspense aria-label='Loading app' size='xl' sx={fullScreenStyles}>
-							<AuthProvider>{props.children}</AuthProvider>
-						</Suspense>
-					</NotificationsProvider>
+					<Suspense aria-label='Loading app' size='xl' sx={fullScreenStyles}>
+						<AuthProvider>
+							<NotificationsProvider position='top-center'>
+								<ModalsProvider>{props.children}</ModalsProvider>
+							</NotificationsProvider>
+						</AuthProvider>
+					</Suspense>
 				</QueryClientProvider>
 			</ErrorBoundary>
 		</MantineProvider>

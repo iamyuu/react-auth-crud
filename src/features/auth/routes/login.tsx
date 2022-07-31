@@ -15,7 +15,7 @@ export function LoginPage() {
 		try {
 			await login(formData);
 		} catch (error: unknown) {
-			const reason = error instanceof Error ? error.message : 'Internal server error';
+			const reason = error instanceof Error ? error.message : 'Something went wrong :(';
 			toast.error(reason);
 		}
 	});

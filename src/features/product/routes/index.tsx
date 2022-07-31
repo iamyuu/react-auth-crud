@@ -1,11 +1,19 @@
-import { Container, Heading } from '~/components/ui';
+import { AppLayout, Heading, HStack } from '~/components/ui';
+import { Suspense } from '~/components/helpers';
+import { ProductList } from '../components/card-list-product';
+import { ButtonCreateProduct } from '../components/button-create-product';
 
 export function ProductListPage() {
 	return (
-		<Container my={40} size={420}>
-			<Heading align='center' mb={30} sx={{ fontWeight: 900 }}>
-				Product
-			</Heading>
-		</Container>
+		<AppLayout>
+			<HStack position='apart'>
+				<Heading sx={{ fontWeight: 900 }}>Product</Heading>
+				<ButtonCreateProduct />
+			</HStack>
+
+			<Suspense aria-label='Loading product' sx={{ minHeight: '10rem' }}>
+				<ProductList />
+			</Suspense>
+		</AppLayout>
 	);
 }
